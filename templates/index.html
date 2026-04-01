@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Analyzer</title>
+</head>
+<body>
+    <h1>AI Resume Analyzer</h1>
+    <form action="/analyze" method ="post" enctype="multipart/form-data">
+        <input type = "file" name ="file" required><br><br>
+        <textarea name="job_description" placeholder="Paste Job Description"></textarea><br><br>
+        <button type="submit">Analyze</button>
+    </form>
+    {% if score %}
+        <h2>Match Score: {{score}}%</h2>
+        <h3>Suggestions:</h3>
+        <p>{{suggestion}}</p>
+    {% endif %}
+</body>
+</html>
+
