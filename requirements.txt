@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-multipart
+scikit-learn
+sentence-transformers
+openai
+PyPDF2
+jinja2
