@@ -107,4 +107,3 @@ uvicorn app.main:app --reload
 * Do **not** clear Jinja2 cache manually (`templates.env.cache.clear()`), it causes `TypeError: unhashable type: 'dict'`.
 * Ensure Ollama/Mistral API is running locally at `http://localhost:11434`.
 
-```
