@@ -1,16 +1,16 @@
 # Text Extraction + Cleaning
 
-import pyPDF2
+import PyPDF2
 import re
 
 def extract_text_from_pdf(file):
-    reader = pyPDF2.PdfReader(file)
+    reader = PyPDF2.PdfReader(file)
     text = ""
     for page in reader.pages:
         text = text + page.extract_text()
     return text
 
 # Replace more than one space with a single space
-def clean_text():
+def clean_text(text):
     text = re.sub(r'\s+',' ', text)
     return text.lower()

@@ -7,9 +7,12 @@ from app.utils import extract_text_from_pdf, clean_text
 from app.model import get_similarity
 
 import requests
+import os
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
+
 
 def get_ollama_response(prompt):
     url = "http://localhost:11434/api/generate"
@@ -21,11 +24,15 @@ def get_ollama_response(prompt):
     response = requests.post(url, json=payload)
     return response.json()["response"]
 
-@app.get("/", response_class= HTMLResponse)
-async def home(request : Request):
-    return templates.TemplateResponse("index.html", {"request" : request})
 
-@app.get("/analyze")
+
+
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    # Always pass {"request": request} in context
+    return templates.TemplateResponse("index.html", {"request": request})
+
+@app.post("/analyze")
 async def analyze_resume(request : Request,file : UploadFile = File(...),job_description: str = Form(...)
 ):
     text = extract_text_from_pdf(file.file)
@@ -48,6 +55,6 @@ async def analyze_resume(request : Request,file : UploadFile = File(...),job_des
     suggestion = get_ollama_response(prompt)
     return templates.TemplateResponse("index.html",{
         "request" : request,
-        "score" : score,
-        "suggestion" : suggestion
+        "score" : float(score),
+        "suggestion" : str(suggestion)
     })
